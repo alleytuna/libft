@@ -6,7 +6,7 @@
 /*   By: aaltun <aaltun@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 13:00:28 by aaltun            #+#    #+#             */
-/*   Updated: 2020/08/18 21:43:32 by aaltun           ###   ########.fr       */
+/*   Updated: 2020/08/18 21:46:31 by aaltun           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,16 @@ char	**ft_split(char const *str, char c)
 	char			**tab;
 	unsigned int	tab_index;
 	unsigned int	wordlen;
-	unsigned int	nbwords;
 
 	tab_index = 0;
 	if (!str)
 		return (NULL);
-	nbwords = ft_count_words(str, c);
-	if (!(tab = malloc(sizeof(*tab) * (nbwords + 1))))
+	if (!(tab = malloc(sizeof(*tab) * (ft_count_words(str, c) + 1))))
 		return (NULL);
 	while (*str)
 	{
-		while (*str && *str++ == c)
+		while (*str && *str == c)
+			str++;
 		if (*str && *str != c)
 		{
 			wordlen = ft_word_len(str, c);

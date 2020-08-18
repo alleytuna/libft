@@ -6,7 +6,7 @@
 /*   By: aaltun <aaltun@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 13:00:28 by aaltun            #+#    #+#             */
-/*   Updated: 2020/08/14 15:58:52 by aaltun           ###   ########.fr       */
+/*   Updated: 2020/08/18 19:20:09 by aaltun           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include <unistd.h>
 #include <stdio.h>
+#  define NULL ((void*)0)
 
 int		ft_count_words(char const *str, char c)
 {
@@ -27,7 +28,7 @@ int		ft_count_words(char const *str, char c)
 		while (str[i] != c)
 		{
 			i++;
-			if (str[i] == c)
+			if (str[i] == c && str[i] != '\0')
 				count++;
 			if (str[i] == '\0')
 			{
@@ -87,4 +88,20 @@ char	**ft_split(char const *str, char c)
 	}
 	tab[tab_index] = NULL;
 	return (tab);
+}
+
+int main (int av, char **ac)
+{
+	char **result;
+	int i;
+
+	i = 0;
+	result = ft_split(ac[1], ac[2][0]);
+	if (!result)
+		return (0);
+	while (result[i])
+	{
+		printf("%s\n", result[i]);
+		i++;
+	}
 }

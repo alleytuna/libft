@@ -6,7 +6,7 @@
 /*   By: aaltun <aaltun@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 13:00:28 by aaltun            #+#    #+#             */
-/*   Updated: 2020/08/18 21:46:31 by aaltun           ###   ########.fr       */
+/*   Updated: 2020/08/18 22:12:28 by aaltun           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,10 @@ int		ft_word_len(char const *str, char c)
 	return (len);
 }
 
-char	**ft_free(char **tab, const char *str, char c)
+char	**ft_free(char **tab, int tab_index)
 {
-	int		i;
-
-	i = ft_count_words(str, c);
-	while (tab[i])
-		free(tab[i--]);
+	while (tab[tab_index])
+		free(tab[tab_index--]);
 	free(tab);
 	return (NULL);
 }
@@ -80,7 +77,7 @@ char	**ft_split(char const *str, char c)
 		{
 			wordlen = ft_word_len(str, c);
 			if (!(tab[tab_index] = ft_substr(str, 0, wordlen)))
-				return (ft_free(tab, str, c));
+				return (ft_free(tab, tab_index));
 			tab_index++;
 			while (*str && *str != c)
 				str++;
@@ -88,20 +85,4 @@ char	**ft_split(char const *str, char c)
 	}
 	tab[tab_index] = NULL;
 	return (tab);
-}
-
-int main (int av, char **ac)
-{
-	char **result;
-	int i;
-
-	i = 0;
-	result = ft_split(ac[1], ac[2][0]);
-	if (!result)
-		return (0);
-	while (result[i])
-	{
-		printf("%s\n", result[i]);
-		i++;
-	}
 }

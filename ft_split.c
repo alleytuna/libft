@@ -6,7 +6,7 @@
 /*   By: aaltun <aaltun@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/09 13:00:28 by aaltun            #+#    #+#             */
-/*   Updated: 2020/08/18 19:20:09 by aaltun           ###   ########.fr       */
+/*   Updated: 2020/08/18 21:43:32 by aaltun           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "libft.h"
 #include <unistd.h>
 #include <stdio.h>
-#  define NULL ((void*)0)
 
 int		ft_count_words(char const *str, char c)
 {
@@ -51,13 +50,13 @@ int		ft_word_len(char const *str, char c)
 	return (len);
 }
 
-void	*ft_free(char **tab)
+char	**ft_free(char **tab, const char *str, char c)
 {
 	int		i;
 
-	i = 0;
+	i = ft_count_words(str, c);
 	while (tab[i])
-		free(tab[i++]);
+		free(tab[i--]);
 	free(tab);
 	return (NULL);
 }
@@ -75,16 +74,18 @@ char	**ft_split(char const *str, char c)
 	nbwords = ft_count_words(str, c);
 	if (!(tab = malloc(sizeof(*tab) * (nbwords + 1))))
 		return (NULL);
-	while (tab_index < nbwords)
+	while (*str)
 	{
-		while (*str && *str == c)
-			str++;
-		wordlen = ft_word_len(str, c);
-		if (!(tab[tab_index] = ft_substr(str, 0, wordlen)))
-			return (ft_free(tab));
-		while (*str && *str != c)
-			str++;
-		tab_index++;
+		while (*str && *str++ == c)
+		if (*str && *str != c)
+		{
+			wordlen = ft_word_len(str, c);
+			if (!(tab[tab_index] = ft_substr(str, 0, wordlen)))
+				return (ft_free(tab, str, c));
+			tab_index++;
+			while (*str && *str != c)
+				str++;
+		}
 	}
 	tab[tab_index] = NULL;
 	return (tab);
